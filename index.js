@@ -17,12 +17,53 @@ function fetchPokemonList(){
 function runner(pokeData){
     //RUN ALL SETUP
     //************************************************************************************ */
+    let currentUser = null
     const allPokeData = pokeData
     displayPokemonFrontPage(1)
 
     //USER ACTIONS
     //************************************************************************************* */
-    
+    const userLogInButton = document.querySelector("#submit-name")
+    userLogInButton.addEventListener("submit", (event) =>{
+        event.preventDefault()
+        fetch('http://localhost:3000/users')
+        .then((response) => {
+            return response.json();
+        })
+        .then((allUsers) => {
+            const nameInput = document.querySelector("#name-input").value
+            if (allUsers.filter(user => { return user.name === nameInput }).length > 0)
+            {
+                currentUser = allUsers.find(user => {return nameInput === user.name})
+                const userContainer = document.querySelector("#user-container")
+            userContainer.innerHTML=`
+                <h1>Logged in as: ${currentUser.name}</h1>
+            `
+            }
+            else{
+                createUser(nameInput)
+            }
+        });
+    })
+    //post to new user
+    function createUser(nameInput){
+        fetch('http://localhost:3000/users', {
+        method: 'POST', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({name: nameInput}),
+        })
+        .then((response) => response.json())
+        .then((userData) => {
+            currentUser = userData
+            console.log(currentUser)
+            const userContainer = document.querySelector("#user-container")
+            userContainer.innerHTML=`
+                <h1>Logged in as: ${currentUser.name}</h1>
+            `
+        })
+    }
 
 
     //DISPLAYING POKEMON FUNCTIONS
@@ -48,7 +89,7 @@ function runner(pokeData){
         const pokeContainer = document.querySelector("#selected-pokemon")
         pokeContainer.innerHTML = `
             <h3>${pokeInfo.name}</h3>
-            <img src= ${pokeInfo.sprites.front_default}>
+            <img src= ${pokeInfo.sprites.front_default} class="selected-sprite">
             <p>id: ${pokeInfo.id}</p>
             <button id="add-to-team">Add to team!</button>
         `
@@ -79,7 +120,7 @@ function runner(pokeData){
         pokemonLi = document.createElement('li')
         pokemonLi.className ="pokemon-list-element"
         pokemonLi.innerHTML = `
-            <img src= ${pokeInfo.sprites.front_default}>
+            <img src= ${pokeInfo.sprites.front_default} class="list-sprite">
             <span>${pokeInfo.name}</span>
         `
         pokeList.append(pokemonLi)

@@ -14,8 +14,14 @@
     padding: 2px 16px;
 }
 
-.pokemon-list-element{
+.list-sprite{
+    height: 35px;
+    width: 35px;
+}
 
+.selected-sprite{
+    height: 25%;
+    width: 25%;
 }
 
 #user-container{
