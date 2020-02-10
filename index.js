@@ -15,9 +15,18 @@ function fetchPokemonList(){
 }
 //run everything
 function runner(pokeData){
+    //RUN ALL SETUP
+    //************************************************************************************ */
     const allPokeData = pokeData
     displayPokemonFrontPage(1)
 
+    //USER ACTIONS
+    //************************************************************************************* */
+    
+
+
+    //DISPLAYING POKEMON FUNCTIONS
+    //*********************************************************************************** */
     //display pokemon main and in list form
     function displayPokemonFrontPage(selectedPokemonId){
         displaySelected(allPokeData[selectedPokemonId - 1])
@@ -37,15 +46,22 @@ function runner(pokeData){
     //display selected pokemon
     function renderSelected(pokeInfo){
         const pokeContainer = document.querySelector("#selected-pokemon")
-            pokeContainer.innerHTML = `
-                <h3>${pokeInfo.name}</h3>
-                <img src= ${pokeInfo.sprites.front_default}>
-                <p>id: ${pokeInfo.id}</p>
-            `
+        pokeContainer.innerHTML = `
+            <h3>${pokeInfo.name}</h3>
+            <img src= ${pokeInfo.sprites.front_default}>
+            <p>id: ${pokeInfo.id}</p>
+            <button id="add-to-team">Add to team!</button>
+        `
+        const addTeamButton = document.querySelector("#add-to-team")
+        addTeamButton.addEventListener("click", () =>{
+            //TODO: POST REQUEST TO CREATE POKEMON
+        })
     }
 
     //fetch data to render pokemon list item
     function displayList(pokeListData){
+        const pokeList = document.querySelector("#pokemon-list")
+        pokeList.innerHTML = ""
         for (i = 0 ; i < 150 ; i++){
             fetch(`${pokeListData[i].url}`)
         .then((response) => {
@@ -67,8 +83,8 @@ function runner(pokeData){
             <span>${pokeInfo.name}</span>
         `
         pokeList.append(pokemonLi)
-        // addEventListener("click", () => 
-        //     displaySelected()
-        // )
+        pokemonLi.addEventListener("click", () => 
+            displayPokemonFrontPage(pokeInfo.id)
+        )
     }
 }
