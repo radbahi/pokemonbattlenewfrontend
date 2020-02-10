@@ -26,25 +26,27 @@ function runner(pokeData){
     const userLogInButton = document.querySelector("#submit-name")
     userLogInButton.addEventListener("submit", (event) =>{
         event.preventDefault()
+        const nameInput = document.querySelector("#name-input").value
+        getUser(nameInput)
+    })
+    //grab user data from backend
+    function getUser(username){
         fetch('http://localhost:3000/users')
         .then((response) => {
             return response.json();
         })
         .then((allUsers) => {
-            const nameInput = document.querySelector("#name-input").value
-            if (allUsers.filter(user => { return user.name === nameInput }).length > 0)
+            
+            if (allUsers.filter(user => { return user.name === username }).length > 0)
             {
-                currentUser = allUsers.find(user => {return nameInput === user.name})
-                const userContainer = document.querySelector("#user-container")
-            userContainer.innerHTML=`
-                <h1>Logged in as: ${currentUser.name}</h1>
-            `
+                currentUser = allUsers.find(user => {return username === user.name})
+                renderUserInfo()
             }
             else{
-                createUser(nameInput)
+                createUser(username)
             }
         });
-    })
+    }
     //post to new user
     function createUser(nameInput){
         fetch('http://localhost:3000/users', {
@@ -57,11 +59,25 @@ function runner(pokeData){
         .then((response) => response.json())
         .then((userData) => {
             currentUser = userData
-            console.log(currentUser)
-            const userContainer = document.querySelector("#user-container")
-            userContainer.innerHTML=`
-                <h1>Logged in as: ${currentUser.name}</h1>
+            renderUserInfo()
+        })
+    }
+    //render user info
+    function renderUserInfo(){
+        const userContainer = document.querySelector("#user-container")
+        userContainer.innerHTML=`
+            <h1>Logged in as: ${currentUser.name}</h1>
+            <div id="team-container">
+            </div>
+        `
+        currentUser.pokemons.forEach(pokemon =>{
+            const pokeSpan = document.createElement('span')
+            pokeSpan.innerHTML = `
+                <img src = ${pokemon.front_default}>
+                <h6>${pokemon.name}</h6>
             `
+            const teamContainer = document.querySelector("#team-container")
+            teamContainer.append(pokeSpan)
         })
     }
 
@@ -95,7 +111,29 @@ function runner(pokeData){
         `
         const addTeamButton = document.querySelector("#add-to-team")
         addTeamButton.addEventListener("click", () =>{
-            //TODO: POST REQUEST TO CREATE POKEMON
+            addPokemon(pokeInfo)
+        })
+    }
+    //create new pokemon and add to trainer's team
+    function addPokemon(pokeInfo){
+        
+        fetch('http://localhost:3000/pokemons', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: pokeInfo.name,
+                types: pokeInfo.types,
+                user_id: currentUser.id,
+                front_default: pokeInfo.sprites.front_default,
+                back_default: pokeInfo.sprites.back_default
+            })
+            })
+        .then((response) => response.json())
+        .then((pokeData) => {
+            currentUser = getUser(currentUser.name)
+            renderUserInfo()
         })
     }
 
