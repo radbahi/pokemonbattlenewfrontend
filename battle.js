@@ -23,6 +23,25 @@ function startBattle(player1, player2) {
     renderTwoPokemon(player2, twoActivePokemon)
     renderOptions(player1Turn, oneActivePokemon, twoActivePokemon, player1, player2)
 }
+function endTurn(player1Turn, oneActivePokemon, twoActivePokemon, player1, player2){
+    const currentPlayer = player1Turn ? player1 : player2
+    const mainBody = document.querySelector('#main-body')
+    console.log(currentPlayer, oneActivePokemon, twoActivePokemon)
+    if (currentPlayer.pokemons[player1Turn ? oneActivePokemon : twoActivePokemon].health <= 0){
+        
+        if (player1Turn ? oneActivePokemon : twoActivePokemon === currentPlayer.pokemons.length - 1){
+            mainBody.innerHTML = "you lose"
+        }
+        else{
+            player1Turn ? oneActivePokemon = oneActivePokemon + 1 : twoActivePokemon = twoActivePokemon + 1
+        }
+    }
+    
+    renderOnePokemon(player1, oneActivePokemon)
+    renderTwoPokemon(player2, twoActivePokemon)
+    renderOptions(player1Turn, oneActivePokemon, twoActivePokemon, player1, player2)
+}
+
 function renderTwoPokemon(player2, activePokemon) {
     const spriteContainer = document.querySelector('#player2-sprite-container')
     spriteContainer.innerHTML = `<img src='${player2.pokemons[activePokemon].front_default}'>`
@@ -92,23 +111,17 @@ function heal(oneActivePokemon, twoActivePokemon, player1Turn, player1, player2)
     //     }
     // }
     pokemon.health = pokemon.health + 10
-    console.log(pokemon)
     player1Turn = !player1Turn
-    renderOnePokemon(player1, oneActivePokemon)
-    renderTwoPokemon(player2, twoActivePokemon)
-    renderOptions(player1Turn, oneActivePokemon, twoActivePokemon, player1, player2)
+    endTurn(player1Turn, oneActivePokemon, twoActivePokemon, player1, player2)
 }
     
     function handleFightEvent(oneActivePokemon, twoActivePokemon, player1Turn, player1, player2) {
-    console.log('clicked')
     if (player1Turn === true) {
-        player2.pokemons[oneActivePokemon].health -= Math.floor((Math.random() * 20) + 1);
+        player2.pokemons[twoActivePokemon].health -= Math.floor((Math.random() * 20) + 1);
         player1Turn = false
     } else {
-        player1.pokemons[twoActivePokemon].health -= Math.floor((Math.random() * 20) + 1);
+        player1.pokemons[oneActivePokemon].health -= Math.floor((Math.random() * 20) + 1);
         player1Turn = true
     }
-    renderOnePokemon(player1, oneActivePokemon)
-    renderTwoPokemon(player2, twoActivePokemon)
-    renderOptions(player1Turn, oneActivePokemon, twoActivePokemon, player1, player2)
+    endTurn(player1Turn, oneActivePokemon, twoActivePokemon, player1, player2)
 }
