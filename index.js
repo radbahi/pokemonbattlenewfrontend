@@ -52,7 +52,6 @@ function runner(pokeData){
             if (allUsers.filter(user => { return user.name === username }).length > 0)
             {
                 currentUser = allUsers.find(user => {return username === user.name})
-                console.log(currentUser)
                 renderUserInfo()
             }
             else{
@@ -77,6 +76,7 @@ function runner(pokeData){
     }
     //render user info
     function renderUserInfo(){
+        console.log(currentUser)
         const userContainer = document.querySelector("#user-container")
         userContainer.innerHTML=`
             <h1>Logged in as: ${currentUser.name}</h1>
@@ -85,15 +85,23 @@ function runner(pokeData){
             </div>
             <button id="battle-start">Start Battle</button>
         `
-        currentUser.pokemons.forEach(pokemon =>{
-            const pokeSpan = document.createElement('span')
-            pokeSpan.innerHTML = `
-                <img src = ${pokemon.front_default}>
-                <h6>${pokemon.name}</h6>
-            `
+        if(currentUser.pokemons.length > 0){
+            currentUser.pokemons.forEach(pokemon =>{
+                const pokeSpan = document.createElement('span')
+                pokeSpan.innerHTML = `
+                    <img src = ${pokemon.front_default}>
+                    <h6>${pokemon.name}</h6>
+                `
+                const teamContainer = document.querySelector("#team-container")
+                teamContainer.append(pokeSpan)
+            })
+        }
+        else{
             const teamContainer = document.querySelector("#team-container")
-            teamContainer.append(pokeSpan)
-        })
+            const empNote = document.createElement('p')
+            empNote.innerText = "Pick some Pokemon and get started!"
+            teamContainer.append(empNote)
+        }
         //logout
         const logoutButton = document.querySelector("#logout")
         logoutButton.addEventListener("click", () =>{
@@ -103,7 +111,8 @@ function runner(pokeData){
         //start battle
         const battleButton = document.querySelector("#battle-start")
         battleButton.addEventListener("click", () =>{
-            selectOpponent(currentUser)
+            //goes to disOpp.js
+            fetchOpponents(currentUser)
         })
     }
 
@@ -117,7 +126,6 @@ function runner(pokeData){
     }
     //fetch data to see selected pokemon
     function displaySelected(pokemon){
-        // console.dir(pokemon)
         fetch(`${pokemon.url}`)
         .then((response) => {
             return response.json();
@@ -158,7 +166,6 @@ function runner(pokeData){
             })
         .then((response) => response.json())
         .then((pokeData) => {
-            console.log(pokeData)
             currentUser = getUser(currentUser.name)
             renderUserInfo()
         })
