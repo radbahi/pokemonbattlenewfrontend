@@ -18,17 +18,29 @@ function runner(pokeData){
     //RUN ALL SETUP
     //************************************************************************************ */
     let currentUser = null
+    renderLogIn()
     const allPokeData = pokeData
     displayPokemonFrontPage(1)
 
     //USER ACTIONS
     //************************************************************************************* */
-    const userLogInButton = document.querySelector("#submit-name")
-    userLogInButton.addEventListener("submit", (event) =>{
-        event.preventDefault()
-        const nameInput = document.querySelector("#name-input").value
-        getUser(nameInput)
-    })
+    function renderLogIn(){
+        const userContainer = document.querySelector("#user-container")
+        userContainer.innerHTML = `
+        <form id="submit-name">
+            Enter name:<br>
+            <input id="name-input" type="text" name="name"><br>
+            <input type="submit">
+        </form>
+        `
+
+        const userLogInButton = document.querySelector("#submit-name")
+        userLogInButton.addEventListener("submit", (event) =>{
+            event.preventDefault()
+            const nameInput = document.querySelector("#name-input").value
+            getUser(nameInput)
+        })
+    }
     //grab user data from backend
     function getUser(username){
         fetch('http://localhost:3000/users')
@@ -40,6 +52,7 @@ function runner(pokeData){
             if (allUsers.filter(user => { return user.name === username }).length > 0)
             {
                 currentUser = allUsers.find(user => {return username === user.name})
+                console.log(currentUser)
                 renderUserInfo()
             }
             else{
@@ -67,8 +80,10 @@ function runner(pokeData){
         const userContainer = document.querySelector("#user-container")
         userContainer.innerHTML=`
             <h1>Logged in as: ${currentUser.name}</h1>
+            <button id="logout">Logout</button>
             <div id="team-container">
             </div>
+            <button id="battle-start">Start Battle</button>
         `
         currentUser.pokemons.forEach(pokemon =>{
             const pokeSpan = document.createElement('span')
@@ -78,6 +93,17 @@ function runner(pokeData){
             `
             const teamContainer = document.querySelector("#team-container")
             teamContainer.append(pokeSpan)
+        })
+        //logout
+        const logoutButton = document.querySelector("#logout")
+        logoutButton.addEventListener("click", () =>{
+            currentUser = null
+            renderLogIn()
+        })
+        //start battle
+        const battleButton = document.querySelector("#battle-start")
+        battleButton.addEventListener("click", () =>{
+            selectOpponent(currentUser)
         })
     }
 
@@ -132,6 +158,7 @@ function runner(pokeData){
             })
         .then((response) => response.json())
         .then((pokeData) => {
+            console.log(pokeData)
             currentUser = getUser(currentUser.name)
             renderUserInfo()
         })
