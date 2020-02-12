@@ -1,40 +1,15 @@
-function startBattle(player1, player2) {
-    const mainBody = document.querySelector('#main-body')
-    let player1 = new Player(player1.name, player1.pokemons)
-    let player2 = new Player(player2.name, player2.pokemons)
-    let player1Turn = true
-    mainBody.innerHTML = `<div id="defend-main-container">
-        <div id="defend-info-container">
-        </div>
-        <div id="defend-sprite-container">
-        </div>
-    </div>
-    <div id="attack-main-container">
-        <div id="attack-info-container">
-        </div>
-        <div id="attack-sprite-container">
-        </div>
-    </div>
-    <div id="options">
-        <ul id="option-list">
-        </ul>
-    </div>`
+function startBattle(user, opponent) {
+    let player1 = new Player(user.name, user.pokemons)
+    let player2 = new Player(opponent.name, opponent.pokemons)
+    battle(player1, player2)
+
+    
 }
-//render defending pokemon
-function renderDefendingPokemon(player) {
-    const spriteContainer = document.querySelector('#player2-sprite-container')
-    spriteContainer.innerHTML = `<img src='${player2.pokemons[activePokemon].front_default}'>`
-    const pokeInfo = document.createElement('ul')
-    const infoContainer = document.querySelector('#player2-info-container')
-    infoContainer.innerHTML = ""
-    infoContainer.append(pokeInfo)
-    const pokeName = document.createElement('li')
-    const pokeHealth = document.createElement('li')
-    pokeName.innerText = player2.pokemons[activePokemon].name
-    pokeInfo.append(pokeName)
-    pokeHealth.innerText = player2.pokemons[activePokemon].health
-    pokeInfo.append(pokeHealth)
+//run battle
+function battle(attackingPlayer, defendingPlayer){
+    renderBattle(attackingPlayer, defendingPlayer)
 }
+
 
 
 
@@ -139,4 +114,4 @@ function renderDefendingPokemon(player) {
 //         player1Turn = true
 //     }
 //     endTurn(player1Turn, oneActivePokemon, twoActivePokemon, player1, player2)
-}
+// }
