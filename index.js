@@ -24,6 +24,7 @@ function runner(pokeData){
 
     //USER ACTIONS
     //************************************************************************************* */
+    //render form for user log in
     function renderLogIn(){
         const userContainer = document.querySelector("#user-container")
         userContainer.innerHTML = `
@@ -76,7 +77,6 @@ function runner(pokeData){
     }
     //render user info
     function renderUserInfo(){
-        console.log(currentUser)
         const userContainer = document.querySelector("#user-container")
         userContainer.innerHTML=`
             <h1>Logged in as: ${currentUser.name}</h1>
