@@ -72,15 +72,3 @@ function renderOptions(attackingPlayer, defendingPlayer){
     changeButton.innerText = "Change Pokemon"
     optionsList.append(changeButton)
 }
-//draw options to make pokemon switch
-function renderSwitchOptions(attackingPlayer){
-    if (attackingPlayer.notFainted().length <= 1){
-
-    }
-    else{
-        const availablePokemon = attackingPlayer.notFainted().filter((pokemon, index) => {
-            return index != attackingPlayer.activePokemonIndex
-        })
-        console.log(availablePokemon)
-    }
-}

@@ -27,6 +27,18 @@ function addListeners(attackingPlayer, defendingPlayer){
         renderSwitchOptions(attackingPlayer)
     })
 }
+//handle options to make pokemon switch
+function handleSwitchOptions(attackingPlayer){
+    if (attackingPlayer.notFainted().length <= 1){
+
+    }
+    else{
+        const availablePokemon = attackingPlayer.notFainted().filter((pokemon, index) => {
+            return index != attackingPlayer.activePokemonIndex
+        })
+        console.log(availablePokemon)
+    }
+}
 
 
 
