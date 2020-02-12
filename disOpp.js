@@ -42,13 +42,22 @@ function displayTeam(user, div){
         const pokeSpan = document.createElement('span')
         pokeSpan.className = "pokemon"
         pokeSpan.innerHTML = `
-            <img src = ${pokemon.front_default}>
-            <h6>${pokemon.name}</h6>
-            <ul>
-                <li>Types: ${pokemon.types[0].name}</li>
-                <li>Moves: ${pokemon.types[0].moves}</li>
-            </ul>
+        <img src = ${pokemon.front_default}>
+        <h6>${pokemon.name}</h6>
         `
+        const typeList = document.createElement('ul')
+        const breakHere = document.createElement("br")
+        pokeSpan.append(typeList)
+        pokemon.types.forEach(type => {
+            const thisIsType = document.createElement('li')
+            const thisIsMove = document.createElement('li')
+            thisIsType.innerText = `Type: ${type.name}`
+            thisIsMove.innerText = `Move: ${type.moves}`
+            typeList.append(thisIsType)
+            typeList.append(breakHere)
+            typeList.append(thisIsMove)
+            typeList.append(breakHere)
+        })
         userBatCon.append(pokeSpan)
     })
 }

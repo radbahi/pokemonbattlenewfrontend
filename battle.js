@@ -21,7 +21,7 @@ function addListeners(attackingPlayer, defendingPlayer){
         if (defendingPlayer.activePokemon().fainted) {
             handleFaintEvent(attackingPlayer, defendingPlayer)
         }else {
-            optionsList.innerHTML = `<p>${attackingPlayer.activePokemon().name} uses ${attackingPlayer.activePokemon().moves[0]}! ${defendingPlayer.activePokemon().name} takes ${defendingPokemonHealth - defendingPlayer.activePokemon().health} damage!</p>`
+            optionsList.innerHTML = `<p>${attackingPlayer.activePokemon().name} uses ${attackingPlayer.activePokemon().moves[Math.floor(Math.random() * attackingPlayer.activePokemon().moves.length)]}! ${defendingPlayer.activePokemon().name} takes ${defendingPokemonHealth - defendingPlayer.activePokemon().health} damage!</p>`
             sleep(2000).then(()=> {
                 battle(defendingPlayer, attackingPlayer)
             })}

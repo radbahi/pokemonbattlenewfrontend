@@ -160,7 +160,7 @@ function runner(pokeData){
     function renderSelected(pokeInfo){
         const pokeContainer = document.querySelector("#selected-pokemon")
         pokeContainer.innerHTML = `
-            <h3>${pokeInfo.name}</h3>
+            <h3>${pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.name.slice(1)}</h3>
             <img src= ${pokeInfo.sprites.front_default} class="selected-sprite">
             <p>id: ${pokeInfo.id}</p>
             <button id="add-to-team">Add to team!</button>
@@ -179,7 +179,7 @@ function runner(pokeData){
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name: pokeInfo.name,
+                name: pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.name.slice(1),
                 types: pokeInfo.types,
                 user_id: currentUser.id,
                 front_default: pokeInfo.sprites.front_default,
@@ -215,7 +215,7 @@ function runner(pokeData){
         pokemonLi.className ="pokemon-list-element"
         pokemonLi.innerHTML = `
             <img src= ${pokeInfo.sprites.front_default} class="list-sprite">
-            <span>${pokeInfo.name}</span>
+            <span>${pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.name.slice(1)}</span>
         `
         pokeList.append(pokemonLi)
         pokemonLi.addEventListener("click", () => 

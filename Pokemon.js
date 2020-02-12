@@ -3,7 +3,7 @@ class Pokemon{
     constructor(name, front_sprite, back_sprite, types){
         this.health = 100
         this.fainted = false
-        this.name = name
+        this.name = name.charAt(0).toUpperCase() + name.slice(1)
         this.front_sprite = front_sprite
         this.back_sprite = back_sprite
         this.types = types
