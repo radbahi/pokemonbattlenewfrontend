@@ -13,20 +13,27 @@ function battle(attackingPlayer, defendingPlayer){
 }
 //add event listeners
 function addListeners(attackingPlayer, defendingPlayer){
+    const optionsList = document.querySelector('#option-list')
     const fightButton = document.querySelector("#fight")
     fightButton.addEventListener('click', () => {
+        const defendingPokemonHealth = defendingPlayer.activePokemon().health
         defendingPlayer.takeDamage(Math.floor(Math.random() * 20) + 1)
         if (defendingPlayer.activePokemon().fainted) {
             handleFaintEvent(attackingPlayer, defendingPlayer)
         }else {
-        battle(defendingPlayer, attackingPlayer)
-        }
+            optionsList.innerHTML = `<p>${attackingPlayer.activePokemon().name} uses ${attackingPlayer.activePokemon().moves[0]}! ${defendingPlayer.activePokemon().name} takes ${defendingPokemonHealth - defendingPlayer.activePokemon().health} damage!</p>`
+            sleep(2000).then(()=> {
+                battle(defendingPlayer, attackingPlayer)
+            })}
     })
     const healButton = document.querySelector("#heal")
     healButton.addEventListener("click", () => {
+        const attackingPokemonHealth = attackingPlayer.activePokemon().health
         attackingPlayer.heal(Math.floor(Math.random() * 20) + 1)
-        battle(defendingPlayer, attackingPlayer)
-    })
+        optionsList.innerHTML = `<p>${attackingPlayer.activePokemon().name} heals for ${attackingPlayer.activePokemon().health - attackingPokemonHealth}!</p>`
+        sleep(2000).then(()=> {
+            battle(defendingPlayer, attackingPlayer)
+        })    })
     const changeButton = document.querySelector("#change")
     changeButton.addEventListener("click", () => {
         handleSwitchOptions(attackingPlayer, defendingPlayer)
@@ -71,9 +78,17 @@ function handleFaintEvent (attackingPlayer, defendingPlayer) {
 
 function endOfGame(winningPlayer, losingPlayer) {
     const mainBody = document.querySelector('#main-body')
-    mainBody.innerHTML = `<h1>${winningPlayer.name} has defeated ${losingPlayer.name}!</h1>`
+    mainBody.innerHTML = `<h1>${winningPlayer.name} has defeated ${losingPlayer.name}!</h1>
+    <button id="redirect">Return to main page</button>`
+    redirectButton = document.querySelector('#redirect')
+    redirectButton.addEventListener('click', () => {
+        fetchPokemonList()
+    })
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 // function endTurn(player1Turn, oneActivePokemon, twoActivePokemon, player1, player2){
 //     const currentPlayer = player1Turn ? player1 : player2

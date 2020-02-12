@@ -26,6 +26,18 @@ function runner(pokeData){
     //************************************************************************************* */
     //render form for user log in
     function renderLogIn(){
+        const mainBody = document.querySelector("#main-body")
+        mainBody.innerHTML = `<div id="user-container">
+            
+        </div>
+        <div id="selected-pokemon">
+
+        </div>
+        <div id="pokemon-list-container">
+            <ul id="pokemon-list">
+
+            </ul>
+        </div>`
         const userContainer = document.querySelector("#user-container")
         userContainer.innerHTML = `
         <form id="submit-name">
@@ -78,6 +90,7 @@ function runner(pokeData){
     //render user info
     function renderUserInfo(){
         const userContainer = document.querySelector("#user-container")
+        console.log(currentUser)
         userContainer.innerHTML=`
             <h1>Logged in as: ${currentUser.name}</h1>
             <button id="logout">Logout</button>
@@ -91,12 +104,21 @@ function runner(pokeData){
                 pokeSpan.innerHTML = `
                     <img src = ${pokemon.front_default}>
                     <h6>${pokemon.name}</h6>
+                    <button id='delete-${pokemon.id}'>Remove ${pokemon.name}</button><br>
                 `
                 const teamContainer = document.querySelector("#team-container")
                 teamContainer.append(pokeSpan)
+                const deleteButton = document.querySelector(`#delete-${pokemon.id}`)
+                deleteButton.addEventListener("click", () => {
+                    fetch(`http://localhost:3000/pokemons/${pokemon.id}`, {
+                        method: 'delete'
+                      }).then(response => response.json())
+                      .then(data => {currentUser = getUser(currentUser.name)
+                    renderUserInfo()})
+                    }
+                )
             })
-        }
-        else{
+        }else{
             const teamContainer = document.querySelector("#team-container")
             const empNote = document.createElement('p')
             empNote.innerText = "Pick some Pokemon and get started!"
