@@ -1,4 +1,4 @@
-//**GET DATA********************************************************************************** */
+/**GET DATA********************************************************************************** */
 //fetch list of all users and then render opoonents screen
 function fetchOpponents(currentUser){
     fetch('http://localhost:3000/users')
@@ -9,7 +9,6 @@ function fetchOpponents(currentUser){
         selectOpponent(currentUser, allUsers)
     })
 }
-
 //get users and render list of possible opponents
 function selectOpponent(currentUser, allUsers){
     const opponents = allUsers
@@ -24,16 +23,11 @@ function selectOpponent(currentUser, allUsers){
         </div>
         <button id="start-battle">Start Battle</button>
     `
-    const battleButton = document.querySelector("#start-battle")
-    battleButton.addEventListener("click", ()=>{
-        startBattle(currentUser, currentSelection)
-    })
+    
     displayTeam(currentUser, "user")
-    displayTeam(currentSelection, "opponent")
-    displayOpps(opponents)
+    // displayTeam(currentSelection, "opponent")
+    displayOpps(opponents, currentUser)
 }
-
-
 //**DISPLAY FUNCS***************************************************************************** */
 //display user team
 function displayTeam(user, div){
@@ -58,9 +52,8 @@ function displayTeam(user, div){
         userBatCon.append(pokeSpan)
     })
 }
-
 //display opponent options, allow you to choose selected opponent
-function displayOpps(opponents){
+function displayOpps(opponents, currentUser){
     opponents.forEach(opponent =>{
         const oppButton = document.createElement('button')
         const oppList = document.querySelector("#opponent-list")
@@ -70,6 +63,10 @@ function displayOpps(opponents){
         oppButton.addEventListener("click", () =>{
             currentSelection = opponent
             displayTeam(currentSelection, "opponent")
+            const battleButton = document.querySelector("#start-battle")
+            battleButton.addEventListener("click", ()=>{
+                startBattle(currentUser, currentSelection)
+            })
         })
     })
 }

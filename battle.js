@@ -1,6 +1,7 @@
 function startBattle(user, opponent) {
     let player1 = new Player(user.name, user.pokemons)
     let player2 = new Player(opponent.name, opponent.pokemons)
+    console.log(player1, player2)
     battle(player1, player2)
 
     
@@ -13,9 +14,13 @@ function battle(attackingPlayer, defendingPlayer){
 //add event listeners
 function addListeners(attackingPlayer, defendingPlayer){
     const fightButton = document.querySelector("#fight")
-    fightButton.addEventListener('click', () =>{
+    fightButton.addEventListener('click', () => {
         defendingPlayer.takeDamage(Math.floor(Math.random() * 20) + 1)
+        if (defendingPlayer.activePokemon().fainted) {
+            handleFaintEvent(attackingPlayer, defendingPlayer)
+        }else {
         battle(defendingPlayer, attackingPlayer)
+        }
     })
     const healButton = document.querySelector("#heal")
     healButton.addEventListener("click", () => {
@@ -24,11 +29,11 @@ function addListeners(attackingPlayer, defendingPlayer){
     })
     const changeButton = document.querySelector("#change")
     changeButton.addEventListener("click", () => {
-        renderSwitchOptions(attackingPlayer)
+        handleSwitchOptions(attackingPlayer, defendingPlayer)
     })
 }
 //handle options to make pokemon switch
-function handleSwitchOptions(attackingPlayer){
+function handleSwitchOptions(attackingPlayer, defendingPlayer){
     if (attackingPlayer.notFainted().length <= 1){
 
     }
@@ -37,10 +42,37 @@ function handleSwitchOptions(attackingPlayer){
             return index != attackingPlayer.activePokemonIndex
         })
         console.log(availablePokemon)
+        const optionsList = document.querySelector('#option-list')
+        const pokemonList = document.createElement("ul")
+        availablePokemon.forEach(pokemon => {
+            const pokemonButton = document.createElement("button")
+            pokemonButton.innerText = `${pokemon.name}`
+            pokemonButton.addEventListener("click", () => {
+                attackingPlayer.activePokemonIndex = attackingPlayer.pokemons.indexOf(pokemon)
+                battle(defendingPlayer, attackingPlayer)
+            })
+            pokemonList.append(pokemonButton)
+        })
+        
+        optionsList.innerHTML = `<h2>"Your Pokemon"</h2>`
+        optionsList.append(pokemonList)
     }
 }
 
+function handleFaintEvent (attackingPlayer, defendingPlayer) {
+    if (defendingPlayer.notFainted().length > 0) {
+        const nextPokemon = defendingPlayer.notFainted()[0]
+        defendingPlayer.activePokemonIndex = defendingPlayer.pokemons.indexOf(nextPokemon)
+        battle(defendingPlayer, attackingPlayer)
+    } else {
+        endOfGame(attackingPlayer, defendingPlayer)
+    }
+} // end of checkiFfAINTED FUNC
 
+function endOfGame(winningPlayer, losingPlayer) {
+    const mainBody = document.querySelector('#main-body')
+    mainBody.innerHTML = `<h1>${winningPlayer.name} has defeated ${losingPlayer.name}!</h1>`
+}
 
 
 // function endTurn(player1Turn, oneActivePokemon, twoActivePokemon, player1, player2){

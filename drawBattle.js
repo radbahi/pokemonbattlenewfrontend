@@ -33,6 +33,7 @@ function renderPokeInfo(pokemon, container){
     infoBox.className = "infoBox"
     container.append(infoBox)
     const name = document.createElement('li')
+    console.log(pokemon)
     name.innerText = pokemon.name
     name.className = "name"
     infoBox.append(name)
@@ -52,7 +53,7 @@ function renderSprite(pokemon, container, url){
 function renderOptions(attackingPlayer, defendingPlayer){
     const mainBody = document.querySelector('#main-body')
     const optionsList = document.createElement('div')
-    optionsList.id = "#option-list"
+    optionsList.id = "option-list"
     mainBody.append(optionsList)
     const fightButton = document.createElement('button')
     fightButton.className = "option-button"
