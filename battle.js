@@ -8,6 +8,24 @@ function startBattle(user, opponent) {
 //run battle
 function battle(attackingPlayer, defendingPlayer){
     renderBattle(attackingPlayer, defendingPlayer)
+    addListeners(attackingPlayer, defendingPlayer)
+}
+//add event listeners
+function addListeners(attackingPlayer, defendingPlayer){
+    const fightButton = document.querySelector("#fight")
+    fightButton.addEventListener('click', () =>{
+        defendingPlayer.takeDamage(Math.floor(Math.random() * 20) + 1)
+        battle(defendingPlayer, attackingPlayer)
+    })
+    const healButton = document.querySelector("#heal")
+    healButton.addEventListener("click", () => {
+        attackingPlayer.heal(Math.floor(Math.random() * 20) + 1)
+        battle(defendingPlayer, attackingPlayer)
+    })
+    const changeButton = document.querySelector("#change")
+    changeButton.addEventListener("click", () => {
+        renderSwitchOptions(attackingPlayer)
+    })
 }
 
 

@@ -59,22 +59,28 @@ function renderOptions(attackingPlayer, defendingPlayer){
     fightButton.id = "fight"
     fightButton.innerText = "Fight"
     optionsList.append(fightButton)
-    fightButton.addEventListener('click', () =>{
-        defendingPlayer.takeDamage(Math.floor(Math.random() * 20) + 1)
-        battle(defendingPlayer, attackingPlayer)
-    })
+    
     const healButton = document.createElement('button')
     healButton.className = "option-button"
     healButton.id = "heal"
     healButton.innerText = "Heal"
     optionsList.append(healButton)
-    healButton.addEventListener("click", () => {
-        attackingPlayer.heal(Math.floor(Math.random() * 20) + 1)
-        battle(defendingPlayer, attackingPlayer)
-    })
+    
     const changeButton = document.createElement('button')
     changeButton.className = "option-button"
     changeButton.id = "change"
     changeButton.innerText = "Change Pokemon"
     optionsList.append(changeButton)
+}
+//draw options to make pokemon switch
+function renderSwitchOptions(attackingPlayer){
+    if (attackingPlayer.notFainted().length <= 1){
+
+    }
+    else{
+        const availablePokemon = attackingPlayer.notFainted().filter((pokemon, index) => {
+            return index != attackingPlayer.activePokemonIndex
+        })
+        console.log(availablePokemon)
+    }
 }
