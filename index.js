@@ -27,7 +27,9 @@ function runner(pokeData){
     //render form for user log in
     function renderLogIn(){
         const mainBody = document.querySelector("#main-body")
-        mainBody.innerHTML = `<div id="user-container">
+        mainBody.innerHTML = `
+        <div id="grid-container">
+        <div id="user-container">
             
         </div>
         <div id="selected-pokemon">
@@ -37,6 +39,7 @@ function runner(pokeData){
             <ul id="pokemon-list">
 
             </ul>
+        </div>
         </div>`
         const userContainer = document.querySelector("#user-container")
         userContainer.innerHTML = `
@@ -100,9 +103,9 @@ function runner(pokeData){
         `
         if(currentUser.pokemons.length > 0){
             currentUser.pokemons.forEach(pokemon =>{
-                const pokeSpan = document.createElement('span')
+                const pokeSpan = document.createElement('div')
                 pokeSpan.innerHTML = `
-                    <img src = ${pokemon.front_default}>
+                    <img class="user-poke-sprite" src = ${pokemon.front_default}>
                     <h6>${pokemon.name}</h6>
                     <button id='delete-${pokemon.id}'>Remove ${pokemon.name}</button><br>
                 `
@@ -112,8 +115,8 @@ function runner(pokeData){
                 deleteButton.addEventListener("click", () => {
                     fetch(`http://localhost:3000/pokemons/${pokemon.id}`, {
                         method: 'delete'
-                      }).then(response => response.json())
-                      .then(data => {currentUser = getUser(currentUser.name)
+                    }).then(response => response.json())
+                    .then(data => {currentUser = getUser(currentUser.name)
                     renderUserInfo()})
                     }
                 )
@@ -160,9 +163,8 @@ function runner(pokeData){
     function renderSelected(pokeInfo){
         const pokeContainer = document.querySelector("#selected-pokemon")
         pokeContainer.innerHTML = `
-            <h3>${pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.name.slice(1)}</h3>
-            <img src= ${pokeInfo.sprites.front_default} class="selected-sprite">
-            <p>id: ${pokeInfo.id}</p>
+            <h3 id="#select-title">${pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.name.slice(1)}</h3>
+            <img src= ${pokeInfo.sprites.front_default} class="selected-sprite"><br/>
             <button id="add-to-team">Add to team!</button>
         `
         const addTeamButton = document.querySelector("#add-to-team")
@@ -215,7 +217,7 @@ function runner(pokeData){
         pokemonLi.className ="pokemon-list-element"
         pokemonLi.innerHTML = `
             <img src= ${pokeInfo.sprites.front_default} class="list-sprite">
-            <span>${pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.name.slice(1)}</span>
+            <div>${pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.name.slice(1)}</div>
         `
         pokeList.append(pokemonLi)
         pokemonLi.addEventListener("click", () => 
