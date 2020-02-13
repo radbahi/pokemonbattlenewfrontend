@@ -15,13 +15,17 @@ function selectOpponent(currentUser, allUsers){
     const currentSelection = opponents[0]
     const body = document.querySelector("#main-body")
     body.innerHTML = `
-        <div id="user-battle-container">
-        </div>
-        <div id="opponent-battle-container">
-        </div>
-        <div id="opponent-list">
+    <div id="opponent-select-screen-container">
+        <div id="user-select-container">
         </div>
         <button id="start-battle">Start Battle</button>
+        <div id="opp-list-display-container">
+            <div id="opponent-select-container">
+            </div>
+            <div id="opponent-list">
+            </div>
+        </div>
+        </div>
     `
     
     displayTeam(currentUser, "user")
@@ -32,7 +36,7 @@ function selectOpponent(currentUser, allUsers){
 //display user team
 function displayTeam(user, div){
     //display name
-    const userBatCon = document.querySelector(`#${div}-battle-container`)
+    const userBatCon = document.querySelector(`#${div}-select-container`)
     userBatCon.innerHTML = ""
     const userHeader = document.createElement('h3')
     userHeader.innerText = user.name

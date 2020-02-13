@@ -1,6 +1,30 @@
-/*FRONT PAGE******************************************/
+/* FRONT PAGE******************************************/
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
+
+* {    
+    font-family: 'Press Start 2P', cursive;
+}
+* > li {
+    list-style: none;
+}
+
+body {
+    background-image: url("https://wallup.net/wp-content/uploads/2016/05/24/143432-nature-Pokemon.jpg");
+}
+
+#start-game-button{
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    height: 50%;
+    width: 50%;
+    background-image: url("https://i.ytimg.com/vi/dL2oP_q-nN8/hqdefault.jpg");
+
+}
+
 #grid-container {
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 20% 80%;
     grid-template-rows: 35% 65%;
     display: grid;
     }
@@ -8,21 +32,66 @@
     #user-container{
     grid-row: 1;
     grid-column: 2;
-    
     }
     #team-container > *{
     display: inline-block;
     width: 25%;
     }
     .user-poke-sprite{
+        position: relative;
         margin: -20px -20px -40px -20px;
+        z-index: -1
     }
+
 
     #selected-pokemon{
     grid-row: 2;
     grid-column: 2;
     text-align: center;
-    }
+}
+
+#defend-pokemon-container > img {
+    text-align: right;
+}
+
+#defend-pokemon-container {
+    display: flex;
+}
+
+#attack-pokemon-container {
+    display: flex;
+}
+
+#attack-pokemon-container > img {
+    text-align: right;
+}
+
+#opponent-select-screen-container{
+    display: flex;
+    
+}
+
+#start-battle {
+    background-color: lightseagreen;
+}
+
+
+#selected-sprite{
+height: 80%;
+width: 50%
+}
+
+#logo-container{
+    grid-row: 1;
+    grid-column: 1;
+}
+
+#logo-container > img{
+    object-fit: cover;
+    width: 80%
+}
+
+
     /*POKEMON AVAILABLE FOR SELECTION*/
     #pokemon-list-container{
     grid-row:2;
@@ -32,11 +101,22 @@
     overflow:auto;
     }
     #pokemon-list-container > *{
-        list-style: none;
         display: inline-block;
         text-align: center;
     }
     #select-title{
         font-size: 200%;
     }
-/*SELECT OPPONENT PAGE********************************/
+
+    #battle-container{
+        height:150%;
+        width:150%;
+    }
+
+    #battle-container > *{
+        height:150%;
+        width:150%;
+    }
+
+
+/*SELECT OPPONENT PAGE******************************* */

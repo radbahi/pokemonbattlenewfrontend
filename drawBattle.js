@@ -1,7 +1,12 @@
 //render battle container
 function renderBattle(attackingPlayer, defendingPlayer){
+    theme.pause();
+    fight.play();
     const mainBody = document.querySelector('#main-body')
-    mainBody.innerHTML = ''
+    mainBody.innerHTML = `
+        <div id="battle-container">
+        </div>
+    `
     renderDefendingPokemon(defendingPlayer)
     renderAttackingPokemon(attackingPlayer)
     renderOptions(attackingPlayer, defendingPlayer)
@@ -9,22 +14,22 @@ function renderBattle(attackingPlayer, defendingPlayer){
 
 //render defending pokemon
 function renderDefendingPokemon(player) {
-    const mainBody = document.querySelector('#main-body')
+    const battleBody = document.querySelector('#battle-container')
     const defendContainer = document.createElement('div')
     defendContainer.id = "defend-pokemon-container"
-    mainBody.append(defendContainer)
+    battleBody.append(defendContainer)
     renderPokeInfo(player.activePokemon(), defendContainer), 
     renderSprite(player.activePokemon(), defendContainer, player.activePokemon().front_sprite)
 }
 
 //render attacking pokemon
 function renderAttackingPokemon(player) {
-    const mainBody = document.querySelector('#main-body')
+    const battleBody = document.querySelector('#battle-container')
     const attackContainer = document.createElement('div')
     attackContainer.id = "attack-pokemon-container"
-    mainBody.append(attackContainer)
-    renderPokeInfo(player.activePokemon(), attackContainer), 
-    renderSprite(player.activePokemon(), attackContainer, player.activePokemon().back_sprite)
+    battleBody.append(attackContainer)
+    renderSprite(player.activePokemon(), attackContainer, player.activePokemon().back_sprite),
+    renderPokeInfo(player.activePokemon(), attackContainer)
 }
 
 //render pokemon info box
@@ -51,10 +56,10 @@ function renderSprite(pokemon, container, url){
 }
 //render options for attacking player
 function renderOptions(attackingPlayer, defendingPlayer){
-    const mainBody = document.querySelector('#main-body')
+    const battleBody = document.querySelector('#battle-container')
     const optionsList = document.createElement('div')
     optionsList.id = "option-list"
-    mainBody.append(optionsList)
+    battleBody.append(optionsList)
     const fightButton = document.createElement('button')
     fightButton.className = "option-button"
     fightButton.id = "fight"

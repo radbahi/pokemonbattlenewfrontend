@@ -1,6 +1,19 @@
 document.addEventListener("DOMContentLoaded", () =>{
-    fetchPokemonList()
+    const startGame = document.createElement("button");
+    const mainBody = document.querySelector("#main-body")
+    startGame.id = "start-game-button"
+    startGame.innerText = ""
+    mainBody.append(startGame)
+    startGame.addEventListener("click", () => {
+        fetchPokemonList()
+    })
+
 })
+
+const theme = document.createElement("audio")
+theme.src = `theme.mp3`
+const fight = document.createElement("audio")
+fight.src = `battle.mp3`
 
 //get all pokemon and put into poke data array
 function fetchPokemonList(){
@@ -17,30 +30,35 @@ function fetchPokemonList(){
 function runner(pokeData){
     //RUN ALL SETUP
     //************************************************************************************ */
+    fight.pause();
+    theme.play();
+    const mainBody = document.querySelector("#main-body")
+    mainBody.innerHTML = `
+    <div id="grid-container">
+    <div id="logo-container">
+        <img src=pokemon-symbol-logo-png-31.png>
+        </div>
+    <div id="user-container">
+        
+    </div>
+    <div id="selected-pokemon">
+
+    </div>
+    <div id="pokemon-list-container">
+        <ul id="pokemon-list">
+
+        </ul>
+    </div>
+    </div>`
     let currentUser = null
     renderLogIn()
     const allPokeData = pokeData
     displayPokemonFrontPage(1)
-
+    
     //USER ACTIONS
     //************************************************************************************* */
     //render form for user log in
     function renderLogIn(){
-        const mainBody = document.querySelector("#main-body")
-        mainBody.innerHTML = `
-        <div id="grid-container">
-        <div id="user-container">
-            
-        </div>
-        <div id="selected-pokemon">
-
-        </div>
-        <div id="pokemon-list-container">
-            <ul id="pokemon-list">
-
-            </ul>
-        </div>
-        </div>`
         const userContainer = document.querySelector("#user-container")
         userContainer.innerHTML = `
         <form id="submit-name">
@@ -164,7 +182,7 @@ function runner(pokeData){
         const pokeContainer = document.querySelector("#selected-pokemon")
         pokeContainer.innerHTML = `
             <h3 id="#select-title">${pokeInfo.name.charAt(0).toUpperCase() + pokeInfo.name.slice(1)}</h3>
-            <img src= ${pokeInfo.sprites.front_default} class="selected-sprite"><br/>
+            <img src= ${pokeInfo.sprites.front_default} id="selected-sprite"><br/>
             <button id="add-to-team">Add to team!</button>
         `
         const addTeamButton = document.querySelector("#add-to-team")
