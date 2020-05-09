@@ -1,0 +1,20 @@
+{
+  "name": "pokemon_battle_frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radbahi/pokemonbattlenewfrontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/radbahi/pokemonbattlenewfrontend/issues"
+  },
+  "homepage": "https://github.com/radbahi/pokemonbattlenewfrontend#readme"
+}
