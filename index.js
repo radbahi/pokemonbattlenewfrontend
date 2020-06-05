@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () =>{
     const startGame = document.createElement("button");
     const mainBody = document.querySelector("#main-body")
     startGame.id = "start-game-button"
-    startGame.innerText = ""
+    startGame.innerText = "Start"
     mainBody.append(startGame)
     startGame.addEventListener("click", () => {
         fetchPokemonList()

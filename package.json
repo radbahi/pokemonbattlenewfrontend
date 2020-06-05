@@ -16,5 +16,6 @@
   "bugs": {
     "url": "https://github.com/radbahi/pokemonbattlenewfrontend/issues"
   },
-  "homepage": "https://github.com/radbahi/pokemonbattlenewfrontend#readme"
+  "homepage": "https://github.com/radbahi/pokemonbattlenewfrontend#readme",
+  "dependencies": {}
 }
